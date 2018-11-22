@@ -1,2 +1,2 @@
 # tableau_simplex
-Implementação simplex do Tableau Simplex
+Implementação <i>simplex<-i> simples do Tableau Simplex
