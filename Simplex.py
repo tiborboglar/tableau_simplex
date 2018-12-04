@@ -1,9 +1,5 @@
 import numpy as np
 
-# COMENTÁRIOS: Caso esteja difícil a visualização dos arquivos com a extensão .ipynb (ipython notebook)
-# Deixarei no meu GitHub o código e o relatório pré-carregado em formato de html
-# qualquer coias mande email: tibor.camargo@usp.br
-# o meu github está logo na função abaixo
 
 def simplex (c, A, b, verbose=False):
     '''
