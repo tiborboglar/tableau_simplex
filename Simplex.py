@@ -1,8 +1,14 @@
 import numpy as np
 
+# COMENTÁRIOS: Caso esteja difícil a visualização dos arquivos com a extensão .ipynb (ipython notebook)
+# Deixarei no meu GitHub o código e o relatório pré-carregado em formato de html
+# qualquer coias mande email: tibor.camargo@usp.br
+# o meu github está logo na função abaixo
+
 def simplex (c, A, b, verbose=False):
     '''
-    @Autor : Tibor Boglár, @Github: https://github.com/tiborzinho/
+    @Autor : Tibor Boglár, 
+    @Github: https://github.com/tiborzinho/
     
     Dado o problema de minimização, já incluindo as variáveis artificiais e de folga, resolve o problema.
     
@@ -24,17 +30,20 @@ def simplex (c, A, b, verbose=False):
     
     iteracoes = 0
     tableau = tableauInicial(c, A, b)
-    
 
     while podeMelhorar(tableau) and iteracoes < 100:
         iteracoes+=1
         pivot = encontrarIndexPivot(tableau)
+        if pivot[0] == float("-inf"):
+            return '.Problema ilimitado.'
+        if pivot[0] == 'sem_solucao':
+            return '.Problema sem solução.'
+        if pivot[0] == 'ilimitado':
+            return '.Problema ilimitado'
         if verbose:
             print('Iteração {}:'.format(iteracoes))
             print(np.array(tableau))
             print('O pivô está na linha', pivot[0], 'e coluna', pivot[1], '\n')
-        if pivot[0] == float("-inf"):
-            return 'Problema ilimitado.'
         pivoteamento(tableau, pivot)
     
     return tableau, solucao(tableau), valorCusto(tableau)
@@ -68,6 +77,9 @@ def encontrarIndexPivot(tableau):
     '''
 
     # pegar o primeiro valor negativo do vetor de custos reduzidos
+    custos_reduzidos = [index_col for index_col, val in enumerate(tableau[0][1:]) if val < 0]
+    if len(custos_reduzidos) == 0:
+        return ['sem_solucao']
     pivot_col = [index_col for index_col, val in enumerate(tableau[0][1:]) if val < 0][0]
     quotients = []
     for index, row in enumerate(tableau):
@@ -76,11 +88,15 @@ def encontrarIndexPivot(tableau):
             quotients.append((index, quotient))
 
     # pega o índice do menor quociente do teste da razão, se todos os valores são menores que zero então o problema é ilimitado
-    pivot_row = min([idx for idx, val in quotients])    
-    if pivot_row < 0:
-        pivot_row = float("-inf")
-    
-    return pivot_row, pivot_col+1
+    k = len([idx for idx, val in quotients])
+    if k == 0:
+        return ['ilimitado']
+    else:
+        pivot_row = min([idx for idx, val in quotients])    
+        if pivot_row < 0:
+            pivot_row = float("-inf")
+
+        return pivot_row, pivot_col+1
 
 def solucao(tableau):
     '''
