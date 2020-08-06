@@ -4,7 +4,7 @@ import numpy as np
 def simplex (c, A, b, verbose=False):
     '''
     @Autor : Tibor Boglár, 
-    @Github: https://github.com/tiborzinho/
+    @Github: https://github.com/tiborboglar/
     
     Dado o problema de minimização, já incluindo as variáveis artificiais e de folga, resolve o problema.
     
